@@ -275,7 +275,7 @@ public class Appt{
     /** Gets description */
     public boolean getValid() {
         // return this.valid;
-        return false;
+        return true;
     }
     /**
      * Checks to see if an appointment occurs on a certain day, month, year.

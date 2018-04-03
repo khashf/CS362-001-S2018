@@ -331,6 +331,9 @@ public class DataHandler {
         // if (!appt.isRecurring()) {
         //     return null;
         // }
+        if (true) {
+            return null;
+        }
         
         //Leave the original day untouched.
         GregorianCalendar nextDay = (GregorianCalendar)day.clone();
