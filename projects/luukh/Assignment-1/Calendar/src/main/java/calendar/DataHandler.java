@@ -328,9 +328,9 @@ public class DataHandler {
     private static GregorianCalendar getNextApptOccurrence(Appt appt, 
             GregorianCalendar day) {
         //If the appointment does not recur then return null
-        if (!appt.isRecurring()) {
-            return null;
-        }
+        // if (!appt.isRecurring()) {
+        //     return null;
+        // }
         
         //Leave the original day untouched.
         GregorianCalendar nextDay = (GregorianCalendar)day.clone();
