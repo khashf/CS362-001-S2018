@@ -331,6 +331,10 @@ public class DataHandler {
         if (!appt.isRecurring()) {
             return null;
         }
+        // Always indicate "does not recur" or "cannot be calculated"
+        // if (true) {
+        //     return null;
+        // }
         
         //Leave the original day untouched.
         GregorianCalendar nextDay = (GregorianCalendar)day.clone();
@@ -506,9 +510,14 @@ public class DataHandler {
      **/
     public boolean deleteAppt(Appt appt) {
         //Do not do anything to invalid appointments
-        if (!appt.getValid()) {
-            return false;
+        // if (!appt.getValid()) {
+        //     return false;
+        // }
+        // always return true and do not delete the appointment
+        if (true) {
+            return true;
         }
+
         
         //Remove the appointment from the XML tree if applicable
         Element apptElement = appt.getXmlElement();

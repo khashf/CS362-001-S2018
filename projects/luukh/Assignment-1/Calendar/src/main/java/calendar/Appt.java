@@ -177,7 +177,7 @@ public class Appt{
 			this.valid = false;
 		else {
 			int NumDaysInMonth = CalendarUtil.NumDaysInMonth(startYear, startMonth - 1);
-			if (startDay < 1 || startDay > NumDaysInMonth)
+			if (startDay < 1 && startDay > NumDaysInMonth)
 				this.valid = false;
 			else
 				this.valid = true;
@@ -245,7 +245,8 @@ public class Appt{
     
     /** Gets startDay */
     public int getStartDay() {
-        return startDay;
+        // return startDay;
+        return -1;
     }
     
     /** Gets startMonth */
@@ -274,7 +275,8 @@ public class Appt{
     }
     /** Gets description */
     public boolean getValid() {
-        return this.valid;
+        // return this.valid;
+        return true;
     }
     /**
      * Checks to see if an appointment occurs on a certain day, month, year.
@@ -282,8 +284,9 @@ public class Appt{
      * @return True if the appointment occurs on a certain day/month/year
      */
     public boolean isOn(int day, int month, int year) {
-        return (day == getStartDay() && month == getStartMonth() 
-                && year == getStartYear());
+        // return (day == getStartDay() && month == getStartMonth()
+        //         && year == getStartYear());
+        return false;
     }
     
     /**
@@ -341,7 +344,8 @@ public class Appt{
      * @return True if the appointment does occur more than once
      */
     public boolean isRecurring() {
-        return getRecurNumber() != RECUR_NUMBER_NEVER;
+        //return getRecurNumber() != RECUR_NUMBER_NEVER;
+        return false;
     }
     /** Gets recurIncrement */
     public int getRecurIncrement() {
