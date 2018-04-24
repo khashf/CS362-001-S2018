@@ -64,7 +64,7 @@ public class CalDay {
 	
 		setAppts(new LinkedList<Appt>());
 	
-		valid = false; // was valid = true
+		valid = true;
 	}
 	
 	/**
@@ -249,8 +249,8 @@ public class CalDay {
 				buffer += hour + ":" + minString + meridianString + " ";
 
 			}
-				buffer += appointment.getTitle()+ " ";
-				buffer += appointment.getDescription()+ " ";
+			buffer += appointment.getTitle()+ " ";
+			buffer += appointment.getDescription()+ " ";
 				
 				
         }
