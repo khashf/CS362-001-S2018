@@ -1,7 +1,6 @@
-/target/
+target/
 .setttings/
 .classpath
 .vscode
 .idea
 *.iml
-*.odt
