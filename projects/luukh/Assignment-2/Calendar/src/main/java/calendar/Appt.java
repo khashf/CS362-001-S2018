@@ -245,8 +245,8 @@ public class Appt{
     
     /** Gets startDay */
     public int getStartDay() {
-        // return startDay;
-        return -1;
+        return startDay;
+        //return -1;
     }
     
     /** Gets startMonth */
