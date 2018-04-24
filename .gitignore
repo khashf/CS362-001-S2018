@@ -7,3 +7,5 @@ projects/luukh/Assignment-2/Calendar/\.classpath
 projects/luukh/Assignment-2/Calendar/\.settings/
 
 *.odt
+
+*.odt#
