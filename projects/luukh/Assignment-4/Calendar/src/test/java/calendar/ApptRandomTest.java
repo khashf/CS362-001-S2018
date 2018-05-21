@@ -70,11 +70,11 @@ public class ApptRandomTest {
 				// System.out.println(" Seed:"+randomseed );
 				Random random = new Random(randomseed);
 
-				int startHour = ValuesGenerator.getRandomIntBetween(random, 1, 11);
-				int startMinute = ValuesGenerator.getRandomIntBetween(random, 1, 11);
-				int startDay = ValuesGenerator.getRandomIntBetween(random, 1, 11);
-				int startMonth = ValuesGenerator.getRandomIntBetween(random, 1, 11);
-				int startYear = ValuesGenerator.getRandomIntBetween(random, 2018, 2018);
+				int startHour = ValuesGenerator.getRandomIntBetween(random, -1, 24);
+				int startMinute = ValuesGenerator.getRandomIntBetween(random, -1, 60);
+				int startDay = ValuesGenerator.getRandomIntBetween(random, -1, 32);
+				int startMonth = ValuesGenerator.getRandomIntBetween(random, -1, 13);
+				int startYear = ValuesGenerator.getRandomIntBetween(random, -10, 2018);
 				String title = "Birthday Party";
 				String description = "This is my birthday party.";
 				String emailAddress = "xyz@gmail.com";
@@ -84,6 +84,7 @@ public class ApptRandomTest {
 				Appt appt = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description,
 						emailAddress);
 
+				appt.setValid();
 				if (!appt.getValid())
 					continue;
 				for (int i = 0; i < NUM_TESTS; i++) {
