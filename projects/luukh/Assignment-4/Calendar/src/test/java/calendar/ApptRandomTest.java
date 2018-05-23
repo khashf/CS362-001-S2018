@@ -93,8 +93,11 @@ public class ApptRandomTest {
 						String newTitle = (String) ValuesGenerator.getString(random);
 						appt.setTitle(newTitle);
 					} else if (methodName.equals("setRecurrence")) {
-						int sizeArray = ValuesGenerator.getRandomIntBetween(random, 0, 8);
-						int[] recurDays = ValuesGenerator.generateRandomArray(random, sizeArray);
+						int[] recurDays = null;
+						int sizeArray = ValuesGenerator.getRandomIntBetween(random, 0, 3);
+						if (sizeArray != 0) {
+							recurDays = ValuesGenerator.generateRandomArray(random, sizeArray);
+						}
 						int recur = ApptRandomTest.RandomSelectRecur(random);
 						int recurIncrement = ValuesGenerator.RandInt(random);
 						int recurNumber = ApptRandomTest.RandomSelectRecurForEverNever(random);
