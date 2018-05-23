@@ -5,23 +5,26 @@ import java.util.Random;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
+import org.junit.Assert.*;
+import org.junit.rules.*;
 /**
  * Random Test Generator for Appt class.
  */
 
 public class ApptRandomTest {
-
+	
 	private static final long TestTimeout = 60 * 500 * 1; /* Timeout at 30 seconds */
 	private static final int NUM_TESTS = 100;
+
+	// @Rule
+	// public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
 
 	/**
 	 * Return a randomly selected method to be tests !.
 	 */
 	public static String RandomSelectMethod(Random random) {
 		// The list of the of methods to be tested in the Appt class
-		String[] methodArray = new String[] { "setTitle", "setRecurrence" };
+		String[] methodArray = new String[] { "setTitle", "setRecurrence", "isOn" };
 
 		// get a random number between 0 (inclusive) and methodArray.length (exclusive)
 		int n = random.nextInt(methodArray.length);
@@ -80,7 +83,6 @@ public class ApptRandomTest {
 				String emailAddress = "xyz@gmail.com";
 
 				// Construct a new Appointment object with the initial data
-				// Construct a new Appointment object with the initial data
 				Appt appt = new Appt(startHour, startMinute, startDay, startMonth, startYear, title, description,
 						emailAddress);
 
@@ -102,6 +104,19 @@ public class ApptRandomTest {
 						int recurIncrement = ValuesGenerator.RandInt(random);
 						int recurNumber = ApptRandomTest.RandomSelectRecurForEverNever(random);
 						appt.setRecurrence(recurDays, recur, recurIncrement, recurNumber);
+						// TODO: assert
+						//softly.assertThat(appt.isOn(startDay, startMonth, startYear)).isEqualTo(true);
+						//errorCollector.checkThat(appt.isOn(startDay, startMonth, startYear), equalTo(true));
+					} else if (methodName.equals("isOn")) {
+						appt.isOn(startDay, startMonth, startYear);
+						appt.isOn(startDay+1, startMonth, startYear);
+						appt.isOn(startDay, startMonth+1, startYear);
+						appt.isOn(startDay, startMonth, startYear+1);
+						appt.isOn(startDay+1, startMonth+1, startYear);
+						appt.isOn(startDay, startMonth+1, startYear+1);
+						appt.isOn(startDay+1, startMonth, startYear+1);
+						appt.isOn(startDay+1, startMonth+1, startYear+1);
+						// TODO: assert
 					}
 				}
 
