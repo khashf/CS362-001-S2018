@@ -122,52 +122,42 @@ public class DataHandlerRandomTest {
 				long randomseed = System.currentTimeMillis(); // 10
 				Random random = new Random(randomseed);
 
-				// DataHandler dataHandlerAS = new DataHandler("test_autosave", true);
-				// DataHandler dataHandlerNoAS = new DataHandler("test_no_autosave", false);
-				// DataHandler dataHandlerDefault = new DataHandler("calendar", false);
+				DataHandler dataHandlerAS = new DataHandler("test_autosave.xml", true);
+				DataHandler dataHandlerNoAS = new DataHandler("test_no_autosave.xml", false);
+				DataHandler dataHandlerDefault = new DataHandler("calendar.xml", false);
 				DataHandler defaultdh = new DataHandler();
 
 				for (int i = 0; i < NUM_TESTS; i++) {
 					
 					String methodName = DataHandlerRandomTest.RandomSelectMethod(random);
-					//System.out.println(methodName);
 					if (methodName.equals("deleteAppt")) {
-						//System.out.println("Start testing deleteAppt...");	
-						// ArrayList<Appt> newAppts = new ArrayList<Appt>();
-						// int nNewAppt = getRandomIntBetween(random, 0, 3);
-						// for (int j = 0; j < nNewAppt; ++j) {
-						// 	newAppt = GenerateRandomAppt(random);
-						// 	newAppts.add(newAppt);
-						// 	dataHandlerAS.saveAppt(appt);
-						// 	dataHandlerNoAS.saveAppt(appt);
-						// }
 						Appt newAppt1 = GenerateRandomAppt(random);
 						Appt newAppt2 = GenerateRandomAppt(random);
 						Appt nonexistedAppt = GenerateRandomAppt(random);
 
-						// dataHandlerAS.saveAppt(newAppt1);
-						// dataHandlerNoAS.saveAppt(newAppt1);
-						// dataHandlerDefault.saveAppt(newAppt1);
+						dataHandlerAS.saveAppt(newAppt1);
+						dataHandlerNoAS.saveAppt(newAppt1);
+						dataHandlerDefault.saveAppt(newAppt1);
 						defaultdh.saveAppt(newAppt1);
 
-						// dataHandlerAS.saveAppt(newAppt2);
-						// dataHandlerNoAS.saveAppt(newAppt2);
-						// dataHandlerDefault.saveAppt(newAppt2);
+						dataHandlerAS.saveAppt(newAppt2);
+						dataHandlerNoAS.saveAppt(newAppt2);
+						dataHandlerDefault.saveAppt(newAppt2);
 						defaultdh.saveAppt(newAppt2);
 
-						// dataHandlerAS.deleteAppt(newAppt1);
-						// dataHandlerNoAS.deleteAppt(newAppt1);
-						// dataHandlerDefault.deleteAppt(newAppt1);
+						dataHandlerAS.deleteAppt(newAppt1);
+						dataHandlerNoAS.deleteAppt(newAppt1);
+						dataHandlerDefault.deleteAppt(newAppt1);
 						defaultdh.deleteAppt(newAppt1);
 
-						// dataHandlerAS.deleteAppt(newAppt2);
-						// dataHandlerNoAS.deleteAppt(newAppt2);
-						// dataHandlerDefault.deleteAppt(newAppt2);
+						dataHandlerAS.deleteAppt(newAppt2);
+						dataHandlerNoAS.deleteAppt(newAppt2);
+						dataHandlerDefault.deleteAppt(newAppt2);
 						defaultdh.deleteAppt(newAppt2);
 						
-						// dataHandlerAS.deleteAppt(nonexistedAppt);
-						// dataHandlerNoAS.deleteAppt(nonexistedAppt);
-						// dataHandlerDefault.deleteAppt(nonexistedAppt);
+						dataHandlerAS.deleteAppt(nonexistedAppt);
+						dataHandlerNoAS.deleteAppt(nonexistedAppt);
+						dataHandlerDefault.deleteAppt(nonexistedAppt);
 						defaultdh.deleteAppt(nonexistedAppt);
 
 						// TODO: Assert
