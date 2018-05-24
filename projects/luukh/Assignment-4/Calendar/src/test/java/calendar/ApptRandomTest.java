@@ -60,12 +60,12 @@ public class ApptRandomTest {
 	 * Generate Random Tests that tests Appt Class.
 	 */
 	@Test
-	public void radnomtest() throws Throwable {
+	public void randomTest() throws Throwable {
 
 		long startTime = Calendar.getInstance().getTimeInMillis();
 		long elapsed = Calendar.getInstance().getTimeInMillis() - startTime;
 
-		System.out.println("Start testing...");
+		System.out.println("Start testing Appt class...");
 
 		try {
 			for (int iteration = 0; elapsed < TestTimeout; iteration++) {
@@ -129,7 +129,7 @@ public class ApptRandomTest {
 
 		}
 
-		System.out.println("Done testing...");
+		System.out.println("Done testing Appt class...");
 	}
 
 }
