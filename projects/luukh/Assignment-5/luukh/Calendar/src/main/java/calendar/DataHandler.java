@@ -308,7 +308,7 @@ public class DataHandler {
             //Calculate the next recurrence day
             occurrenceDay = getNextApptOccurrence(appt, occurrenceDay);
             if (occurrenceDay == null) {
-                // break;
+                break;
             }
 
             //Keep cycling while the occurence day is in range
