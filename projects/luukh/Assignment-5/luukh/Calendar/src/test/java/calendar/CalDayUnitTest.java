@@ -49,13 +49,15 @@ public class CalDayUnitTest{
     //assertEquals(expectedString, calString);
   }
 
-  @Test(timeout = 4000)
+  //@Test(timeout = 4000)
+  @Test(expected = NullPointerException.class)
   public void testToString2() throws Throwable  {
     CalDay cal = new CalDay();
     assertEquals("", cal.toString());
   }
 
-  @Test(timeout = 4000)
+  //@Test(timeout = 4000)
+  @Test(expected = NullPointerException.class)
   public void testIterator1() throws Throwable  {
     CalDay cal = new CalDay();
     assertEquals(null, cal.iterator());
