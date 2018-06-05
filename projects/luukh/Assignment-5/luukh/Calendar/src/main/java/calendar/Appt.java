@@ -147,7 +147,7 @@ public class Appt{
          //Just call the other constructor
          this(NO_TIME, NO_TIME, startDay, startMonth, startYear, title,
             description, emailAddress);
-         this.valid=false;
+         this.valid=true;
     }
 
 	/**
