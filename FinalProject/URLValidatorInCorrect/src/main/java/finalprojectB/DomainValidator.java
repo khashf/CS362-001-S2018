@@ -76,8 +76,8 @@ public class DomainValidator implements Serializable {
 
     // RFC2396 toplabel = alpha | alpha *( alphanum | "-" ) alphanum
     // Max 63 characters
-    //private static final String TOP_LABEL_REGEX = "\\p{Alpha}(?>[\\p{Alnum}-]{0,61}\\p{Alnum})?";
     private static final String TOP_LABEL_REGEX = "\\p{Alpha}(?>[\\p{Alnum}-]{0,61}\\p{Alnum})?";
+    //private static final String TOP_LABEL_REGEX = "\\p{Alpha}(?>[\\p{Alnum}-]{0,61}\\p{Alnum})?";
 
     // RFC2396 hostname = *( domainlabel "." ) toplabel [ "." ]
     // Note that the regex currently requires both a domain label and a top level label, whereas
@@ -163,7 +163,7 @@ public class DomainValidator implements Serializable {
         }
         String[] groups = domainRegex.match(domain);
         if (groups != null && groups.length > 0) {
-            return !isValidTld(groups[0]);
+            return isValidTld(groups[0]);
         }
         return allowLocal && hostnameRegex.isValid(domain);
     }

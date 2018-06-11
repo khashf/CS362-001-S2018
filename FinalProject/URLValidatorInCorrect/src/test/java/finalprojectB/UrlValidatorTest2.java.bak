@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package finalprojectA;
+package finalprojectB;
 
 import junit.framework.TestCase;
 
@@ -87,45 +87,25 @@ public class UrlValidatorTest extends TestCase {
         // UrlValidator urlVal = new UrlValidator(null, allowAllSchemes);
         assertTrue(urlVal.isValid("http://www.google.com"));
         assertTrue(urlVal.isValid("http://www.google.com/"));
-        int statusPerLine = 60;
-        int printed = 0;
-        if (printIndex) {
-            statusPerLine = 6;
-        }
+        String testPartsIndexString = testPartsIndextoString();
+        System.out.println(testPartsIndexString);
         do {
             StringBuilder testBuffer = new StringBuilder();
             boolean expected = true;
             for (int testPartsIndexIndex = 0; testPartsIndexIndex < testPartsIndex.length; ++testPartsIndexIndex) {
                 int index = testPartsIndex[testPartsIndexIndex];
+                //System.out.println("index = " + index);
                 ResultPair[] part = (ResultPair[]) testObjects[testPartsIndexIndex];
                 testBuffer.append(part[index].item);
+                System.out.println("["+index+"]" + part[index].item + " = " + part[index].valid);
                 expected &= part[index].valid;
             }
             String url = testBuffer.toString();
             boolean result = urlVal.isValid(url);
-            if (result == true)
-                System.out.println(url);
+            System.out.println(url);
             assertEquals(url, expected, result);
-            if (printStatus) {
-                if (printIndex) {
-                    System.out.print(testPartsIndextoString());
-                } else {
-                    if (result == expected) {
-                        System.out.print('.');
-                    } else {
-                        System.out.print('X');
-                    }
-                }
-                printed++;
-                if (printed == statusPerLine) {
-                    System.out.println();
-                    printed = 0;
-                }
-            }
         } while (incrementTestPartsIndex(testPartsIndex, testObjects));
-        if (printStatus) {
-            System.out.println();
-        }
+        System.out.println();
     }
 
     public void testValidator202() {
@@ -191,6 +171,7 @@ public class UrlValidatorTest extends TestCase {
         UrlValidatorTest fct = new UrlValidatorTest("url test");
         fct.setUp();
         fct.testIsValid();
+        fct.setUp();
         fct.testIsValidScheme();
     }
 
