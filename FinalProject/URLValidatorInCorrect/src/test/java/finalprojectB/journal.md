@@ -46,7 +46,19 @@ if ("http".equals(scheme)) {// Special case - file: allows an empty authority
 Bug: Change from `if ("file".equals(scheme))` to `if ("http".equals(scheme))`
 
 ===============================================================
-
+Error
+```
+http://www.google.com:80/test1?action=view
+testIsValid(finalprojectB.UrlValidatorTest)  Time elapsed: 0.002 sec  <<< FAILURE!
+junit.framework.AssertionFailedError: http://www.google.com:80/test1?action=view expected:<true> but was:<false>
+	at junit.framework.Assert.fail(Assert.java:57)
+	at junit.framework.Assert.failNotEquals(Assert.java:329)
+	at junit.framework.Assert.assertEquals(Assert.java:78)
+	at junit.framework.Assert.assertEquals(Assert.java:174)
+	at junit.framework.TestCase.assertEquals(TestCase.java:333)
+	at finalprojectB.UrlValidatorTest.testIsValid(UrlValidatorTest.java:173)
+UrlValidatorTest.testIsValid:173 http://www.google.com:80/test1?action=view expected:<true> but was:<false>
+```
 DomainValidator line 166
 `return isValidTld(groups[0]);` to `return !isValidTld(groups[0]);`
 
@@ -226,6 +238,8 @@ if (groups != null) {
 Good
 if (groups == null) {
 
+
+
 ============================================================
 
 Error:
@@ -258,4 +272,66 @@ if (iIpSegment > IPV4_MAX_OCTET_VALUE) {
             		return false;
 }
 
-======================
+=====================================================================
+Error:
+```
+testIsValidScheme(finalprojectB.UrlValidatorTest)  Time elapsed: 0.008 sec  <<< FAILURE!
+junit.framework.AssertionFailedError: http expected:<true> but was:<false>
+	at junit.framework.Assert.fail(Assert.java:57)
+	at junit.framework.Assert.failNotEquals(Assert.java:329)
+	at junit.framework.Assert.assertEquals(Assert.java:78)
+	at junit.framework.Assert.assertEquals(Assert.java:174)
+	at junit.framework.TestCase.assertEquals(TestCase.java:333)
+	at finalprojectB.UrlValidatorTest.testIsValidScheme(UrlValidatorTest.java:187)
+
+testManual6(finalprojectB.UrlValidatorTest)  Time elapsed: 0.008 sec  <<< FAILURE!
+junit.framework.AssertionFailedError: http expected:<true> but was:<false>
+	at junit.framework.Assert.fail(Assert.java:57)
+	at junit.framework.Assert.failNotEquals(Assert.java:329)
+	at junit.framework.Assert.assertEquals(Assert.java:78)
+	at junit.framework.Assert.assertEquals(Assert.java:174)
+	at junit.framework.TestCase.assertEquals(TestCase.java:333)
+	at finalprojectB.UrlValidatorTest.testManual6(UrlValidatorTest.java:223)
+
+
+UrlValidatorTest.testIsValidScheme:187 http expected:<true> but was:<false>
+
+
+```
+
+Bad
+allowedSchemes.add(schemes[i].toUpperCase(Locale.ENGLISH));
+Good
+allowedSchemes.add(schemes[i].toLowerCase(Locale.ENGLISH));
+
+=====================================================================
+
+In the unit testing section, we started out by doing a basic sanity test by testing the validity of well known sites like https://www.google.com/, which succeeded correctly. I also looked at passing a null string in, which the function failed correctly, and passing in an empty string, the function also failed correctly.
+
+From there, I looked at the source code and realized that there were multiple constructors. I decided to create multiple versions of urlValidator, each with a different constructor, and call them to see if one of the constructors was incorrect.
+
+Although my initial validator specifying to allow all schemes passed the tests,
+
+UrlValidator urlValidator = new UrlValidator(null,null,UrlValidator.ALLOW_ALL_SCHEMES); 
+
+other constructors specified in the code did not create validators that passed all the tests.
+
+UrlValidator urlValidator = new UrlValidator();
+UrlValidator urlValidator = new UrlValidator(schemes);
+
+Both the default constructor and a constructor passing valid url schemes failed the sanity test of checking whether https://www.google.com/ is a valid url. I put print statements inside them to trace the execution but I realized that the constructions were chained together, calling each other.
+
+I tested the assertion assertEquals(urlValidator.isValidScheme("http"),true); with and without the ALLOW_ALL_SCHEMES option set in the constructor. When it was set it passed, otherwise it failed.
+
+I then began to suspect that the scheme was being incorrectly modified. I saw that the valid scheme input in the constructors were being added to a private set, allowedSchemes. Since this was a private set, I could not access it directly through unit tests.
+
+I inserted the following lines into the isValidScheme function to test the true values of the scheme input vs the values in allowedSchemes.
+
+System.out.println(scheme);
+for (String s : allowedSchemes) { System.out.println(s); }
+
+These tests revealed that while the input string was all lowercase, http the allowedSchemes set strings were all caps, HTTPS, HTTP. The fact that this was an unintentional was reinforced because the scheme passed into the function was being converted to lowercase when being compared to strings in the allowedSchemes set. 
+
+Using this information, I searched UrlValidator.java for uses of allowedSchemes, and found that the input schemes in the one of the overloaded constructors for UrlValidator were being converted to uppercase when added to the allowedSchemes set, rather than being converted to lowercase. Once I fixed this issue, my tests ran normally. 
+
+As soon as I expanded my test cases to cover ftp urls, I encountered issues with the the Regex validator 

@@ -14,8 +14,8 @@ public class UrlValidatorTest extends TestCase {
     ResultPair[] testUrlScheme = { 
         new ResultPair("http://", true),
         new ResultPair("ftp://", true),
-        new ResultPair("hkt://", true),
-        new ResultPair("999://", false),
+        new ResultPair("h3t://", true),
+        new ResultPair("3ht://", false),
         new ResultPair("http:/", false),
         new ResultPair("http:", false),
         new ResultPair("http/", false),
@@ -25,8 +25,8 @@ public class UrlValidatorTest extends TestCase {
 
     ResultPair[] testUrlAuthority = {
         new ResultPair("www.google.com", true),
-        new ResultPair("oregonstate.edu", true),
-        new ResultPair("microsoft.com", true), 
+        new ResultPair("go.com", true),
+        new ResultPair("go.au", true), 
         new ResultPair("0.0.0.0", true), 
         new ResultPair("255.255.255.255", true),
         new ResultPair("256.256.256.256", false), 
@@ -35,12 +35,12 @@ public class UrlValidatorTest extends TestCase {
         new ResultPair("1.2.3.4.", false), 
         new ResultPair("1.2.3", false),
         new ResultPair(".1.2.3.4", false), 
-        new ResultPair("tinhte.v", false), 
-        new ResultPair("oregonstate.com", true),
-        new ResultPair("oregonstate.gov", true), 
-        new ResultPair("kkk.", false), 
-        new ResultPair(".kkk", false),
-        new ResultPair("kkk", false), 
+        new ResultPair("go.a", false), 
+        new ResultPair("go.a1a", false),
+        new ResultPair("go.1aa", false), 
+        new ResultPair("aaa.", false), 
+        new ResultPair(".aaa", false),
+        new ResultPair("aaa", false), 
         new ResultPair("", false) 
     };
 
@@ -51,8 +51,7 @@ public class UrlValidatorTest extends TestCase {
         new ResultPair("", true), 
         new ResultPair(":-1", false),
         new ResultPair(":65636", false), 
-        new ResultPair(":69k", false),
-        new ResultPair(":k", false) 
+        new ResultPair(":65a", false) 
     };
 
     ResultPair[] testPath = { 
@@ -71,20 +70,19 @@ public class UrlValidatorTest extends TestCase {
     // Test allow2slash, noFragment
     ResultPair[] testUrlPathOptions = { 
         new ResultPair("/test1", true), 
-        new ResultPair("/khuongishot", true),
-        new ResultPair("/$99999", true), 
+        new ResultPair("/t123", true),
+        new ResultPair("/$23", true), 
         new ResultPair("/..", false), 
         new ResultPair("/../", false),
-        new ResultPair("/../../", false),
-        new ResultPair("/test9/", true), 
+        new ResultPair("/test1/", true), 
         new ResultPair("/#", false), 
         new ResultPair("", true),
-        new ResultPair("/test9/file", true), 
-        new ResultPair("/k999999/file", true), 
-        new ResultPair("/#6969/file", true),
+        new ResultPair("/test1/file", true), 
+        new ResultPair("/t123/file", true), 
+        new ResultPair("/$23/file", true),
         new ResultPair("/../file", false), 
         new ResultPair("/..//file", false), 
-        new ResultPair("/test9//file", true), // true with allow2slash
+        new ResultPair("/test1//file", true),
         new ResultPair("/#/file", false) 
     };
 
@@ -154,7 +152,10 @@ public class UrlValidatorTest extends TestCase {
         return (!maxIndex);
     }
 
-    
+    public void testManual() {
+        UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+        assertEquals(true, urlVal.isValid("http://www.google.com:80/test1/?action=view"));
+    }
 
     public void testIsValid() {
         UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
@@ -175,63 +176,22 @@ public class UrlValidatorTest extends TestCase {
         } while (incrementTestPartsIndex(testPartsIndex, testUrlParts));
     }
 
-    public void testIsValidScheme() {
-        System.out.println("\n testIsValidScheme() ");
-        String[] schemes = { "http", "gopher" };
-        // UrlValidator urlVal = new UrlValidator(schemes,false,false,false);
-        UrlValidator urlVal = new UrlValidator(schemes, 0);
-        for (int sIndex = 0; sIndex < testScheme.length; sIndex++) {
-            ResultPair testPair = testScheme[sIndex];
-            System.out.println(testPair.item + " = " + testPair.valid);
-            boolean result = urlVal.isValidScheme(testPair.item);
-            assertEquals(testPair.item, testPair.valid, result);
-        }
-        System.out.println();
-    }
-
-
-    public void testManual1() {
-        UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
-        assertEquals(true, urlVal.isValid("http://www.google.com:80/test1/?action=view"));
-    }
-
-    public void testManual2() {
-        UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
-        assertEquals(true, urlVal.isValid("http://www.google.com:#/test1?action=view"));
-    }
-
-    public void testManual3() {
-        UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
-        assertEquals(false, urlVal.isValid("http://www.google.com/..?action=view"));
-    }
-
-    public void testManual4() {
-        UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
-        assertEquals(false, urlVal.isValid("http://256.256.256.256:80/test1?action=view"));
-    }
-
-    public void testManual5() {
-        UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
-        assertEquals(true, urlVal.isValid("http://0.0.0.0:80/test1?action=view"));
-
-    }
-
-    public void testManual6() {
-        String[] schemes = { "http", "gopher" };
-        UrlValidator urlVal = new UrlValidator(schemes, 0);
-        boolean result = urlVal.isValidScheme("http");
-        assertEquals("http", true, result);
-    }
-
+    // public void testIsValidScheme() {
+    //     System.out.println("\n testIsValidScheme() ");
+    //     String[] schemes = { "http", "gopher" };
+    //     // UrlValidator urlVal = new UrlValidator(schemes,false,false,false);
+    //     UrlValidator urlVal = new UrlValidator(schemes, 0);
+    //     for (int sIndex = 0; sIndex < testScheme.length; sIndex++) {
+    //         ResultPair testPair = testScheme[sIndex];
+    //         boolean result = urlVal.isValidScheme(testPair.item);
+    //         assertEquals(testPair.item, testPair.valid, result);
+    //     }
+    //     System.out.println();
+    // }
 
     public static void main(String[] argv) {
         UrlValidatorTest fct = new UrlValidatorTest("url test");
-        fct.testManual1();
-        fct.testManual2();
-        fct.testManual3();
-        fct.testManual4();
-        fct.testManual5();
-        //fct.testManual6();
+        fct.testManual();
         //fct.setUp();
         //fct.testIsValid();
         //fct.setUp();
