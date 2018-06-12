@@ -4,14 +4,14 @@ package finalprojectB;
 import junit.framework.TestCase;
 
 // Citation:
-// This test suite is heavily inspired and inherited from 
+// This test suite is heavily inspired and inherited from
 // the programming-based test suit that we were introduced in
 // the final project part A. Though we borrowed a bunch of (amazing) ideas
 // from the Apache implementation, we have modified, restructured, reformated,
-// and partition the test data by our own ideas. 
+// and partition the test data by our own ideas.
 public class UrlValidatorTest extends TestCase {
 
-    ResultPair[] testUrlScheme = { 
+    ResultPair[] testUrlScheme = {
         new ResultPair("http://", true),
         new ResultPair("ftp://", true),
         new ResultPair("hkt://", true),
@@ -20,105 +20,117 @@ public class UrlValidatorTest extends TestCase {
         new ResultPair("http:", false),
         new ResultPair("http/", false),
         new ResultPair("://", false),
-        new ResultPair("", true) 
+        new ResultPair("", true)
+        // new ResultPair((String)null, false)
     };
 
     ResultPair[] testUrlAuthority = {
         new ResultPair("www.google.com", true),
         new ResultPair("oregonstate.edu", true),
-        new ResultPair("microsoft.com", true), 
-        new ResultPair("0.0.0.0", true), 
+        new ResultPair("microsoft.com", true),
+        new ResultPair("0.0.0.0", true),
+        new ResultPair("8.8.8.8", true),
         new ResultPair("255.255.255.255", true),
-        new ResultPair("256.256.256.256", false), 
+        new ResultPair("256.256.256.256", false),
         new ResultPair("255.com", true),
-        new ResultPair("1.2.3.4.5", false), 
-        new ResultPair("1.2.3.4.", false), 
+        new ResultPair("1.2.3.4.5", false),
+        new ResultPair("1.2.3.4.", false),
         new ResultPair("1.2.3", false),
-        new ResultPair(".1.2.3.4", false), 
-        new ResultPair("tinhte.v", false), 
+        new ResultPair(".1.2.3.4", false),
+        new ResultPair("tinhte.v", false),
         new ResultPair("oregonstate.com", true),
-        new ResultPair("oregonstate.gov", true), 
-        new ResultPair("kkk.", false), 
+        new ResultPair("oregonstate.gov", true),
+        new ResultPair("kkk.", false),
         new ResultPair(".kkk", false),
-        new ResultPair("kkk", false), 
-        new ResultPair("", false) 
+        new ResultPair("kkk", false),
+        new ResultPair("", false),
+        new ResultPair((String)null, false)
     };
 
-    ResultPair[] testUrlPort = { 
-        new ResultPair(":80", true), 
+    ResultPair[] testUrlPort = {
+        new ResultPair(":80", true),
         new ResultPair(":65535", true),
-        new ResultPair(":0", true), 
-        new ResultPair("", true), 
+        new ResultPair(":0", true),
+        new ResultPair("", true),
         new ResultPair(":-1", false),
-        new ResultPair(":65636", false), 
+        new ResultPair(":65636", false),
         new ResultPair(":69k", false),
-        new ResultPair(":k", false) 
+        new ResultPair(":k", false),
+        new ResultPair((String)null, false)
     };
 
-    ResultPair[] testPath = { 
-        new ResultPair("/test1", true), 
+    ResultPair[] testPath = {
+        new ResultPair("/test1", true),
         new ResultPair("/t123", true),
-        new ResultPair("/$23", true), 
-        new ResultPair("/..", false), 
+        new ResultPair("/$23", true),
+        new ResultPair("/..", false),
         new ResultPair("/../", false),
-        new ResultPair("/test1/", true), 
-        new ResultPair("", true), 
+        new ResultPair("/test1/", true),
+        new ResultPair("", true),
         new ResultPair("/test1/file", true),
-        new ResultPair("/..//file", false), 
-        new ResultPair("/test1//file", false) 
+        new ResultPair("/..//file", false),
+        new ResultPair("/test1//file", false),
+        new ResultPair((String)null, false)
     };
-    
+
     // Test allow2slash, noFragment
-    ResultPair[] testUrlPathOptions = { 
-        new ResultPair("/test1", true), 
+    ResultPair[] testUrlPathOptions = {
+        new ResultPair("/test1", true),
+        new ResultPair("/tes\t1", false),
         new ResultPair("/khuongishot", true),
-        new ResultPair("/$99999", true), 
-        new ResultPair("/..", false), 
+        new ResultPair("/$99999", true),
+        new ResultPair("/..", false),
         new ResultPair("/../", false),
         new ResultPair("/../../", false),
-        new ResultPair("/test9/", true), 
-        new ResultPair("/#", false), 
+        new ResultPair("/test9/", true),
+        new ResultPair("/#", false),
         new ResultPair("", true),
-        new ResultPair("/test9/file", true), 
-        new ResultPair("/k999999/file", true), 
+        new ResultPair("/test9/file", true),
+        new ResultPair("/k999999/file", true),
         new ResultPair("/#6969/file", true),
-        new ResultPair("/../file", false), 
-        new ResultPair("/..//file", false), 
+        new ResultPair("/../file", false),
+        new ResultPair("/..//file", false),
         new ResultPair("/test9//file", true), // true with allow2slash
-        new ResultPair("/#/file", false) 
+        new ResultPair("/#/file", false),
+        new ResultPair((String)null, false)
     };
 
-    ResultPair[] testUrlQuery = { 
-        new ResultPair("?action=view", true), 
+    ResultPair[] testUrlQuery = {
+        new ResultPair("?action=view", true),
         new ResultPair("?action=edit&mode=up", true),
-        new ResultPair("", true) 
+        new ResultPair("", true),
+        new ResultPair("?q=1+2+3", true),
+        new ResultPair("?q=kl\tdfgkls", false)
     };
 
-    ResultPair[] testScheme = { 
-        new ResultPair("http", true), 
+    ResultPair[] testScheme = {
+        new ResultPair("http", true),
         new ResultPair("ftp", false),
-        new ResultPair("httpd", false), 
-        new ResultPair("telnet", false) 
+        new ResultPair("httpd", false),
+        new ResultPair("telnet", false),
+        new ResultPair((String)null, false),
+        new ResultPair("ldap", false),
+        new ResultPair("mailto", false)
     };
 
-    Object[] testUrlParts = { 
-        testUrlScheme, 
-        testUrlAuthority, 
-        testUrlPort, 
-        testPath, 
-        //testUrlPathOptions, 
-        testUrlQuery 
+    Object[] testUrlParts = {
+        testUrlScheme,
+        testUrlAuthority,
+        testUrlPort,
+        testPath,
+        //testUrlPathOptions,
+        testUrlQuery
     };
 
-    Object[] testUrlPartsOptions = { 
-        testUrlScheme, 
-        testUrlAuthority, 
-        testUrlPort, 
-        testUrlPathOptions, 
-        testUrlQuery 
+    Object[] testUrlPartsOptions = {
+        testUrlScheme,
+        testUrlAuthority,
+        testUrlPort,
+        testUrlPathOptions,
+        testUrlQuery
     };
 
-    
+
 
     int[] testPartsIndex = { 0, 0, 0, 0, 0 };
 
@@ -154,7 +166,7 @@ public class UrlValidatorTest extends TestCase {
         return (!maxIndex);
     }
 
-    
+
 
     public void testIsValid() {
         UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
@@ -222,19 +234,56 @@ public class UrlValidatorTest extends TestCase {
         boolean result = urlVal.isValidScheme("http");
         assertEquals("http", true, result);
     }
+    public void testYourFirstPartition()
+    {
+      //You can use this function to implement your First Partition testing
+      // This partition tests overloading the constructor with strings list
+      String[] schemes = {"http","https"};
 
+      UrlValidator urlValidator = new UrlValidator(schemes);
 
-    public static void main(String[] argv) {
-        UrlValidatorTest fct = new UrlValidatorTest("url test");
-        fct.testManual1();
-        fct.testManual2();
-        fct.testManual3();
-        fct.testManual4();
-        fct.testManual5();
-        //fct.testManual6();
-        //fct.setUp();
-        //fct.testIsValid();
-        //fct.setUp();
-        //fct.testIsValidScheme();
+      assertEquals(urlValidator.isValidScheme("http"),true);
+      assertEquals(urlValidator.isValidScheme("https"),true);
+      assertEquals(urlValidator.isValid("ftp://foo.bar.com/"),false);
+      assertEquals(urlValidator.isValid(null),false);
+      assertEquals(urlValidator.isValid(""),false);
+      assertEquals(urlValidator.isValid("http://www.google.com/"),true);
+
     }
-}
+    public void testYourSecondPartition(){
+      //You can use this function to implement your Second Partition testing
+      // This partition tests overloading the constructor to allow all strings
+      UrlValidator urlValidator = new UrlValidator(null,null,UrlValidator.ALLOW_ALL_SCHEMES);
+      assertEquals(urlValidator.isValidScheme("http"),true);
+      assertEquals(urlValidator.isValidScheme("https"),true);
+      // assertEquals(urlValidator.isValid("ftp://foo.bar.com/"),true);
+      assertEquals(urlValidator.isValid(null),false);
+      assertEquals(urlValidator.isValid(""),false);
+      assertEquals(urlValidator.isValid("http://www.google.com/"),true);
+    }
+     public void testYourThirdPartition(){
+      // This partition tests using the default constructor
+      UrlValidator urlValidator = new UrlValidator();
+      assertEquals(urlValidator.isValidScheme("http"),true);
+      assertEquals(urlValidator.isValidScheme("https"),true);
+      assertEquals(urlValidator.isValid("ftp://foo.bar.com/"),true);
+      assertEquals(urlValidator.isValid(null),false);
+      assertEquals(urlValidator.isValid(""),false);
+      assertEquals(urlValidator.isValid("http://www.google.com/"),true);
+     }
+
+
+        public static void main(String[] argv) {
+            UrlValidatorTest fct = new UrlValidatorTest("url test");
+            fct.testManual1();
+            fct.testManual2();
+            fct.testManual3();
+            fct.testManual4();
+            fct.testManual5();
+            //fct.testManual6();
+            //fct.setUp();
+            //fct.testIsValid();
+            //fct.setUp();
+            //fct.testIsValidScheme();
+        }
+    }
